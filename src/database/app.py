@@ -49,7 +49,7 @@ bd = BD()
 def cadastrar_dados():
     dados = request.get_json()
     resposta = bd.adicionar_login(dados)
-    return jsonify({"resposta": resposta})
+    return jsonify(True)
 
 
 # Execução do flask

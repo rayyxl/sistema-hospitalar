@@ -9,21 +9,27 @@
     height: 90vh;
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2vh;
     border-radius: 10px;
+    opacity: 1;
+    position: relative;
 }
 
-.box-container .box-titulo {
+.box-cadastro {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.box-cadastro .box-titulo {
     flex: 1;
     display: flex;
     align-items: center;
 }
 
-.box-container form {
+.box-cadastro form {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -31,20 +37,24 @@
     gap: 4vh;
 }
 
-.box-container form div {
+.box-cadastro form div {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: .5vh;
 }
 
-.box-container form div label {
+.box-cadastro form div label {
     color: white;
     font-weight: bold;
     font-size: 1.5em;
 }
 
-.box-container form div input, .box-container form div select  {
+.box-cadastro form div select {
+    cursor: pointer;
+}
+
+.box-cadastro form div input, .box-cadastro form div select  {
     outline: none;
     border: none;
     border-radius: 5px;
@@ -55,11 +65,11 @@
     font-weight: bold;
 }
 
-.box-container form div input:focus, .box-container form div select:focus  {
+.box-cadastro form div input:focus, .box-cadastro form div select:focus  {
     box-shadow: 0 0 10px black;
 }
 
-.box-container form .box-button input {
+.box-cadastro form .box-button input {
     background-color: #dad8d7;
     cursor: pointer;
     font-weight: bold;
@@ -70,7 +80,7 @@
     transition: background-color .5s ease;
 }
 
-.box-container form .box-button input:hover {
+.box-cadastro form .box-button input:hover {
     background-color: #afadac;
 }
 
@@ -93,13 +103,13 @@
     font-size: 1.2em;
 }
 
-.box-container .box-cadastro {
+.box-cadastro .box-cadastro {
     flex: 1;
     display: flex;
     align-items: center;
 }
 
-.box-container .box-cadastro .link {
+.box-cadastro .box-cadastro .link {
     color: #ccd5ee;
     text-decoration: none;
     font-style: italic;
@@ -107,11 +117,11 @@
     transition: color .8s ease;
 }
 
-.box-container .box-cadastro .link:hover {
+.box-cadastro .box-cadastro .link:hover {
     color: #878991;
 }
 
-.box-container .box-cadastro .link::before {
+.box-cadastro .box-cadastro .link::before {
     content: '';
     width: 100%;
     height: 2px;
@@ -123,6 +133,53 @@
     transition: transform .5s ease;
 }
 
-.box-container .box-cadastro .link:hover::before {
+.box-cadastro .box-cadastro .link:hover::before {
     transform: scaleX(1);
+}
+
+.boxs-principais {
+    display: none !important;
+}
+
+.box-erro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 50vh;
+    background-color: #3d3d6b;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.box-erro h1 {
+    font-size: 2.2em;
+}
+
+.box-erro p {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.box-erro button {
+    padding: 1vh 3vw;
+    font-weight: bold;
+    background-color: #a3acc5;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color .5s ease;
+}
+
+.box-erro button:hover {
+    background-color: #808696;
+}
+
+.box-erro .button-seguir {
+    display: none;
 }

@@ -51,6 +51,7 @@
     height: 3vh;
     width: 40vw;
     font-size: 1em;
+    font-weight: bold;
     padding-left: .5vw;
 }
 
@@ -92,7 +93,7 @@
 }
 
 .box-container .box-cadastro .link:hover {
-    color: #a2a6b3;
+    color: #878991;
 }
 
 .box-container .box-cadastro .link::before {
