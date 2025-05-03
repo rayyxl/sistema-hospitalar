@@ -26,17 +26,67 @@ class BD:
             database='database_logins'
         )
 
-    def adicionar_login(self, dados):
+    def verificar_crm_medico(self, dados):
+
+        try:
+            with self.conexao.cursor() as cursor:
+                sql = "SELECT * FROM dados_login WHERE crm = %s"
+
+                dado_verificador = (dados['crm'],)
+
+                cursor.execute(sql, dado_verificador)
+
+                resultado = cursor.fetchone()
+
+                if (resultado):
+                    return resultado
+                return False
+
+
+        except Exception as e:
+            print('Erro:', e)
+            return False
+        
+    def verificar_cpf_medico(self, dados):
+
+        try:
+            with self.conexao.cursor() as cursor:
+                sql = "SELECT * FROM dados_login WHERE cpf = %s"
+
+                dado_verificador = (dados['cpf'],)
+
+                cursor.execute(sql, dado_verificador)
+
+                resultado = cursor.fetchone()
+
+                if (resultado):
+                    return resultado
+                return False
+
+
+        except Exception as e:
+            print('Erro:', e)
+            return False
+
+
+    def adicionar_medico(self, dados):
 
         try:
             with self.conexao.cursor() as cursor:
 
-                sql = "INSERT INTO dados_login (nome, senha, especializacao, uf, crm) VALUES (%s, %s, %s, %s, %s)"
-                valores = (dados['nome'], dados['senha'], dados['especializacao'], dados['uf'], dados['crm'])      
-                cursor.execute(sql, valores)
-                self.conexao.commit()
-                return True
-            
+                if (not self.verificar_cpf_medico(dados) and not self.verificar_crm_medico(dados)):
+
+                    sql = "INSERT INTO dados_login (nome, senha, cpf, uf, crm) VALUES (%s, %s, %s, %s, %s)"
+
+                    valores = (dados['nome'], dados['senha'], dados['cpf'], dados['uf'], dados['crm'])   
+
+                    cursor.execute(sql, valores)
+
+                    self.conexao.commit()
+                    return True
+                
+                return False
+
         except Exception as e:
             print('Erro:', e)
             return False
@@ -48,8 +98,20 @@ bd = BD()
 @app.route('/cadastrar-dados', methods=['POST'])
 def cadastrar_dados():
     dados = request.get_json()
-    resposta = bd.adicionar_login(dados)
-    return jsonify(True)
+    erros = {'erro_crm': False, 'erro_cpf': False}
+
+    if (bd.verificar_crm_medico(dados)):
+        erros['erro_crm'] = True
+
+    if (bd.verificar_cpf_medico(dados)):
+        erros['erro_cpf'] = True
+
+    elif (erros['erro_cpf'] == True or erros['erro_crm'] == True):
+        return jsonify(erros)
+    
+
+    bd.adicionar_medico(dados)
+    return jsonify(erros)
 
 
 # Execução do flask

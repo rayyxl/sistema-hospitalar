@@ -1,7 +1,9 @@
 import styles from './form_cadastro.module.css'
 import { useNavigate, Link } from 'react-router-dom'
-import { useRef, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
+import { useRef, useEffect, useState } from 'react'
+import { gsap } from 'gsap'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 function FormCadastro() {
 
@@ -9,7 +11,7 @@ function FormCadastro() {
     const [datas, setDatas] = useState({
         nome: '',
         senha: '',
-        especializacao: '',
+        cpf: '',
         uf: '',
         crm: ''
     })
@@ -42,6 +44,7 @@ function FormCadastro() {
     const text_erro_ref = useRef(null)
     const button_corrigir_ref = useRef(null)
     const button_confirmar_ref = useRef(null)
+    const cpf_input_ref = useRef(null) 
 
 
     // FUNÇÕES
@@ -54,6 +57,21 @@ function FormCadastro() {
         return `${crm_gerado}/CRM-${uf}`
     }
 
+    const formatar_cpf = (valor) => {
+        // Remove tudo que não for número
+        valor = valor.replace(/\D/g, "")
+    
+        // Aplica a máscara: 000.000.000-00
+        if (valor.length <= 11) {
+          valor = valor
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+        }
+    
+        return valor
+    };
+
 
     function handle_input(e) {
         const { name, value } = e.target;
@@ -65,6 +83,12 @@ function FormCadastro() {
                 uf: value,
                 crm: generate_crm(value),
             });
+        } else if (name === "cpf") {
+            const valor_formatado = formatar_cpf(value)
+            setDatas({
+                ...datas,
+                cpf: valor_formatado
+            })
         } else {
             // Outros campos apenas atualizam normalmente
             setDatas({
@@ -89,16 +113,52 @@ function FormCadastro() {
     
                 const result = await request.json()
 
-                if (result) {
-                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 1})
+                NProgress.start()
+
+                if (!result.erro_crm && !result.erro_cpf) {
+                    NProgress.start()
+                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
 
                     gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
 
-                    text_erro_ref.current.innerText = `NOME: ${datas.nome},\nCRM: ${datas.crm}\nESPECIALIZAÇÃO: ${datas.especializacao}.`
+                    text_erro_ref.current.innerText = `NOME: ${datas.nome},\nCRM: ${datas.crm},\nCPF: ${datas.cpf}.`
 
                     gsap.to(button_corrigir_ref.current, {display: 'none', duration: 0.1})
 
                     gsap.to(button_confirmar_ref.current, {display: 'block', duration: 0.1})
+
+                } else if (result.erro_crm && result.erro_cpf) {
+                    NProgress.done()
+
+                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
+
+                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
+
+                    text_erro_ref.current.innerText = `CPF JÁ CADASTRADO E O CRM GERADO ESTÁ EM CONFLITO.`
+
+                } else if (result.erro_crm) {
+                    NProgress.done()
+                    
+                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
+
+                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
+
+                    text_erro_ref.current.innerText = `CONFLITO COM O CRM! SERÁ GERADO OUTRO.`
+
+                } else if (result.erro_cpf) {
+                    NProgress.done()
+
+                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
+
+                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
+
+                    text_erro_ref.current.innerText = `CPF JÁ CADASTRADO NO SISTEMA!`
+
+                    setDatas({
+                        ...datas,
+                        crm: generate_crm(datas.uf)
+                    });
+
                 }
                 
                   
@@ -115,6 +175,7 @@ function FormCadastro() {
     }
 
     const pagina_login = () => {
+        NProgress.done()
         navigate('/')
     };
 
@@ -155,14 +216,9 @@ function FormCadastro() {
                         <input type="password" name="senha" value={datas.senha} id="senha" onChange={handle_input} required />
                     </div>
 
-                    <div className='box-especializacao'>
-                        <label htmlFor="especializacao">ESPECIALIZAÇÃO:</label>
-                        <select name='especializacao' onChange={handle_input} value={datas.especializacao} required>
-                            <option value="" disabled></option>
-                            {especialidades_medicas.map((esp) => (
-        <option value={esp}>{esp}</option>
-    ))}
-                        </select>
+                    <div className='box-cpf'>
+                        <label htmlFor="cpf">CPF:</label>
+                        <input type='text' ref={cpf_input_ref} id='cpf' name='cpf' value={datas.cpf} onChange={handle_input} maxLength="14"/>
                     </div>
 
                     <div className='box-uf'>
