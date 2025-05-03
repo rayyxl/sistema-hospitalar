@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.box-container {
+    width: 50vw;
+    height: 60vh;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 3vh;
+    border-radius: 10px;
+}
+
+.box-container .box-titulo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.box-container form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5vh;
+}
+
+.box-container form div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .5vh;
+}
+
+.box-container form div label {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.box-container form div input {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    height: 3vh;
+    width: 40vw;
+    font-size: 1em;
+    padding-left: .5vw;
+}
+
+.box-container form div input:focus {
+    box-shadow: 0 0 10px black;
+}
+
+.box-container form .box-button input {
+    background-color: #dad8d7;
+    cursor: pointer;
+    font-weight: bold;
+    height: 4vh;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    font-size: 1em;
+    transition: background-color .5s ease;
+}
+
+.box-container form .box-button input:hover {
+    background-color: #afadac;
+}
+
+.box-container .box-cadastro {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.box-container .box-cadastro .link {
+    display: inline;
+    height: auto;
+    color: #ccd5ee;
+    text-decoration: none;
+    font-style: italic;
+    transition: color .5s ease;
+    position: relative;
+}
+
+.box-container .box-cadastro .link:hover {
+    color: #a2a6b3;
+}
+
+.box-container .box-cadastro .link::before {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color: #545572;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    transition: transform .5s ease;
+}
+
+.box-container .box-cadastro .link:hover::before {
+    transform: scaleX(1);
+}
