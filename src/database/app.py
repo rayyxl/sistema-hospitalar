@@ -76,9 +76,9 @@ class BD:
 
                 if (not self.verificar_cpf_medico(dados) and not self.verificar_crm_medico(dados)):
 
-                    sql = "INSERT INTO dados_login (nome, senha, cpf, uf, crm) VALUES (%s, %s, %s, %s, %s)"
+                    sql = "INSERT INTO dados_login (nome, senha, cpf, especializacao, uf, crm) VALUES (%s, %s, %s, %s, %s, %s)"
 
-                    valores = (dados['nome'], dados['senha'], dados['cpf'], dados['uf'], dados['crm'])   
+                    valores = (dados['nome'], dados['senha'], dados['cpf'], dados['especializacao'], dados['uf'], dados['crm'])   
 
                     cursor.execute(sql, valores)
 
