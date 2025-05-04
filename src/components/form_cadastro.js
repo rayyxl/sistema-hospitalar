@@ -59,10 +59,8 @@ function FormCadastro() {
     }
 
     const formatar_cpf = (valor) => {
-        // Remove tudo que não for número
         valor = valor.replace(/\D/g, "")
     
-        // Aplica a máscara: 000.000.000-00
         if (valor.length <= 11) {
           valor = valor
             .replace(/(\d{3})(\d)/, "$1.$2")
@@ -77,7 +75,6 @@ function FormCadastro() {
     function handle_input(e) {
         const { name, value } = e.target;
 
-        // Se o campo for UF, atualize UF e gere o CRM na sequência
         if (name === "uf") {
             setDatas({
                 ...datas,
