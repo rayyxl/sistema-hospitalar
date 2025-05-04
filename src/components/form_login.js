@@ -1,24 +1,99 @@
 import styles from './form_login.module.css'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { useRef, useState } from 'react'
+import { gsap } from 'gsap'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 function FormLogin() {
-    const enviar = "ENTRAR";
+
+    //DECLARATIONS
+    const [datas, setDatas] = useState({
+        crm: '',
+        senha: ''
+    })
+
+    const text_alert_ref = useRef(null)
+    const box_alert_ref = useRef(null)
+
+    //FUNCTIONS
+    function handle_input(e) {
+        setDatas({
+            ...datas,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    async function handle_submit(e) {
+            e.preventDefault()
+    
+          
+            try {
+                const request = await fetch('http://localhost:5000/logar-medico', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datas)
+                })
+    
+                const result = await request.json()
+
+                NProgress.start()
+
+                if (!result.erro_crm && !result.erro_senha) {
+
+                    NProgress.done()
+
+                } else if (result.erro_crm && result.erro_senha) {
+                    NProgress.done()
+
+                    abrir_box_alerta()
+
+                    text_alert_ref.current.innerText = `DADOS NÃO CADASTRADOS NO SISTEMA!`
+
+                } else if (result.erro_senha) {
+                    NProgress.done()
+
+                    abrir_box_alerta()
+
+                    text_alert_ref.current.innerText = `SENHA INCORRETA`
+
+                }
+                    
+            } catch (erro) {
+                console.log(`Erro: ${erro}`)
+            }
+        }
+
+        function abrir_box_alerta() {
+            gsap.to(box_alert_ref.current, {opacity: 1, display: 'flex', duration: 1})
+
+            setTimeout(() => {
+                gsap.to(box_alert_ref.current, {opacity: 0, display: 'none', duration: 1})
+            }, 2500)
+        }
+    
     return (
         <div className={styles['box-container']}>
             <div className={styles['box-titulo']}>
                 <h1>LOGIN</h1>
             </div>
-            <form>
-                <div className='box-email'>
+            <form onSubmit={handle_submit}>
+                <div className='box-crm'>
                     <label htmlFor="crm">CRM:</label>
-                    <input type="text" name="crm" id="crm"/>
+                    <input type="text" name="crm" id="crm" value={datas.crm} onChange={handle_input} required/>
                 </div>
+
                 <div className='box-senha'>
                     <label htmlFor="senha">SENHA:</label>
-                    <input type="password" name="senha" id="senha" />
+                    <input type="password" name="senha" id="senha" value={datas.senha} onChange={handle_input} required/>
+                </div>
+                <div ref={box_alert_ref} className={styles['box-text-alert']}>
+                    <p ref={text_alert_ref}></p>
                 </div>
                 <div className={styles['box-button']}>
-                    <input type='submit' value={enviar} name='button' id='button'/>
+                    <input type='submit' value="ENTRAR" name='button' id='button'/>
                 </div>
             
             </form>

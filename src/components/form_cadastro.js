@@ -1,13 +1,13 @@
 import styles from './form_cadastro.module.css'
 import { useNavigate, Link } from 'react-router-dom'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 function FormCadastro() {
 
-    // DECLARAÇÕES
+    // DECLARATIONS
     const [datas, setDatas] = useState({
         nome: '',
         senha: '',
@@ -48,7 +48,7 @@ function FormCadastro() {
     const cpf_input_ref = useRef(null) 
 
 
-    // FUNÇÕES
+    // FUNCTIONS
     function generate_crm(uf) {
         let crm_gerado = ""
         for(let i = 0; i < 6; i++) {
@@ -101,7 +101,7 @@ function FormCadastro() {
 
         if (validarSenha(datas.senha)) {
             try {
-                const request = await fetch('http://localhost:5000/cadastrar-dados', {
+                const request = await fetch('http://localhost:5000/cadastrar-medico', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -190,7 +190,6 @@ function FormCadastro() {
     }
 
 
-    const enviar = "CADASTRAR";
     return (
         <div className={styles['box-container']}>
             <div ref={box_cadastro_ref} className={styles['box-cadastro']}>
@@ -241,7 +240,7 @@ function FormCadastro() {
                     </div>
 
                     <div className={styles['box-button']}>
-                        <input type='submit' value={enviar} name='button' id='button'/>
+                        <input type='submit' value="CADASTRAR" name='button' id='button'/>
                     </div>
                 </form>
                 <div className={styles['box-cadastro']}>

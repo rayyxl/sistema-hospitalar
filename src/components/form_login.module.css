@@ -55,6 +55,20 @@
     padding-left: .5vw;
 }
 
+.box-container .box-text-alert {
+    background-color: #9ca7a4;
+    margin: 0 auto;
+    padding: 1.2vh 2vw;
+    border-radius: 10px;
+    display: none;
+}
+
+.box-container .box-text-alert p {
+    color: black;
+    font-weight: bold;
+    font-size: 1em;
+}
+
 .box-container form div input:focus {
     box-shadow: 0 0 10px black;
 }
