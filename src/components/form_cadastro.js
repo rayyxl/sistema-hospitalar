@@ -12,6 +12,7 @@ function FormCadastro() {
         nome: '',
         senha: '',
         cpf: '',
+        especializacao: '',
         uf: '',
         crm: ''
     })
@@ -28,7 +29,7 @@ function FormCadastro() {
         "OFTALMOLOGIA",
         "ENDOCRINOLOGIA",
         "ONCOLOGIA",
-        "OUTRA"
+        "OUTRA ESPECIALIDADE"
     ]; 
 
     const estados = [
@@ -40,8 +41,8 @@ function FormCadastro() {
     const navigate = useNavigate();
 
     const box_cadastro_ref = useRef(null)
-    const box_erro_ref = useRef(null)
-    const text_erro_ref = useRef(null)
+    const box_alert_ref = useRef(null)
+    const text_alert_ref = useRef(null)
     const button_corrigir_ref = useRef(null)
     const button_confirmar_ref = useRef(null)
     const cpf_input_ref = useRef(null) 
@@ -116,12 +117,10 @@ function FormCadastro() {
                 NProgress.start()
 
                 if (!result.erro_crm && !result.erro_cpf) {
-                    NProgress.start()
-                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
 
-                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
+                    abrir_box_alerta()
 
-                    text_erro_ref.current.innerText = `NOME: ${datas.nome},\nCRM: ${datas.crm},\nCPF: ${datas.cpf}.`
+                    text_alert_ref.current.innerText = `NOME: ${datas.nome},\nCRM: ${datas.crm},\nCPF: ${datas.cpf}.`
 
                     gsap.to(button_corrigir_ref.current, {display: 'none', duration: 0.1})
 
@@ -130,29 +129,21 @@ function FormCadastro() {
                 } else if (result.erro_crm && result.erro_cpf) {
                     NProgress.done()
 
-                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
+                    abrir_box_alerta()
 
-                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
-
-                    text_erro_ref.current.innerText = `CPF JÁ CADASTRADO E O CRM GERADO ESTÁ EM CONFLITO.`
+                    text_alert_ref.current.innerText = `CPF JÁ CADASTRADO E O CRM GERADO ESTÁ EM CONFLITO.`
 
                 } else if (result.erro_crm) {
                     NProgress.done()
-                    
-                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
 
-                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
+                    abrir_box_alerta()
 
-                    text_erro_ref.current.innerText = `CONFLITO COM O CRM! SERÁ GERADO OUTRO.`
+                    text_alert_ref.current.innerText = `CONFLITO COM O CRM! SERÁ GERADO OUTRO.`
 
                 } else if (result.erro_cpf) {
                     NProgress.done()
 
-                    gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
-
-                    gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
-
-                    text_erro_ref.current.innerText = `CPF JÁ CADASTRADO NO SISTEMA!`
+                    text_alert_ref.current.innerText = `CPF JÁ CADASTRADO NO SISTEMA!`
 
                     setDatas({
                         ...datas,
@@ -166,22 +157,26 @@ function FormCadastro() {
                 console.log(`Erro: ${erro}`)
             }
         } else {
-            gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
+            abrir_box_alerta()
 
-            gsap.to(box_erro_ref.current, {opacity: 1, display: 'flex', duration: 1})
-
-            text_erro_ref.current.innerText = 'A SENHA DEVE TER NO MÍN. 8 CARACTERES,\nLETRAS MAIÚSCULAS, NÚMEROS, CARACTERES ESPECIAIS\nE SEM ESPAÇOS EM BRANCO!'
+            text_alert_ref.current.innerText = 'A SENHA DEVE TER NO MÍN. 8 CARACTERES,\nLETRAS MAIÚSCULAS, NÚMEROS, CARACTERES ESPECIAIS\nE SEM ESPAÇOS EM BRANCO!'
         }
     }
 
-    const pagina_login = () => {
+    const ir_pagina_login = () => {
         NProgress.done()
         navigate('/')
     };
 
-    function fechar_box_erro() {
+    function abrir_box_alerta() {
+        gsap.to(box_cadastro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
 
-        gsap.to(box_erro_ref.current, {opacity: 0, display: 'none', duration: 0.5})
+        gsap.to(box_alert_ref.current, {opacity: 1, display: 'flex', duration: 1})
+    }
+
+    function fechar_box_alert() {
+
+        gsap.to(box_alert_ref.current, {opacity: 0, display: 'none', duration: 0.5})
 
         gsap.to(box_cadastro_ref.current, {opacity: 1, display: 'flex', duration: 1})
     }
@@ -203,7 +198,7 @@ function FormCadastro() {
         <div className={styles['box-container']}>
             <div ref={box_cadastro_ref} className={styles['box-cadastro']}>
                 <div className={styles['box-titulo']}>
-                    <h1>LOGIN</h1>
+                    <h1>CADASTRO DO MÉDICO</h1>
                 </div>
                 <form onSubmit={handle_submit}>
                     <div className='box-crm'>
@@ -218,7 +213,17 @@ function FormCadastro() {
 
                     <div className='box-cpf'>
                         <label htmlFor="cpf">CPF:</label>
-                        <input type='text' ref={cpf_input_ref} id='cpf' name='cpf' value={datas.cpf} onChange={handle_input} maxLength="14"/>
+                        <input type='text' ref={cpf_input_ref} id='cpf' name='cpf' value={datas.cpf} onChange={handle_input} maxLength="14" required/>
+                    </div>
+
+                    <div className='box-especializacao'>
+                        <label htmlFor="especializacao">ESPECIALIZAÇÃO:</label>
+                        <select name='especializacao' onChange={handle_input} value={datas.especializacao} required>
+                            <option value="" disabled selected></option>
+                            {especialidades_medicas.map((esp) => (
+        <option value={esp}>{esp}</option>
+    ))}
+                        </select>
                     </div>
 
                     <div className='box-uf'>
@@ -246,14 +251,14 @@ function FormCadastro() {
                     <Link to="/" className={styles['link']}>VOLTAR</Link>
                 </div>
             </div>
-            <div ref={box_erro_ref} className={styles['box-erro']}>
+            <div ref={box_alert_ref} className={styles['box-alert']}>
                 <h1>ATENÇÃO!</h1>
 
-                <p ref={text_erro_ref}></p>
+                <p ref={text_alert_ref}></p>
 
-                <button ref={button_corrigir_ref} type='button' onClick={fechar_box_erro}>CORRIGIR</button>
+                <button ref={button_corrigir_ref} type='button' onClick={fechar_box_alert}>CORRIGIR</button>
 
-                <button className={styles['button-seguir']} ref={button_confirmar_ref} type='button' onClick={pagina_login}>SEGUIR</button>
+                <button className={styles['button-seguir']} ref={button_confirmar_ref} type='button' onClick={ir_pagina_login}>SEGUIR</button>
             </div>
         </div>
         

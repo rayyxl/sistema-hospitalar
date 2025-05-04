@@ -34,7 +34,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 4vh;
+    gap: 3vh;
 }
 
 .box-cadastro form div {
@@ -70,6 +70,7 @@
 }
 
 .box-cadastro form .box-button input {
+    margin-top: 1.5vh;
     background-color: #dad8d7;
     cursor: pointer;
     font-weight: bold;
@@ -137,11 +138,7 @@
     transform: scaleX(1);
 }
 
-.boxs-principais {
-    display: none !important;
-}
-
-.box-erro {
+.box-alert {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -157,16 +154,16 @@
     font-weight: bold;
 }
 
-.box-erro h1 {
+.box-alert h1 {
     font-size: 2.2em;
 }
 
-.box-erro p {
+.box-alert p {
     font-size: 1.5em;
     text-align: center;
 }
 
-.box-erro button {
+.box-alert button {
     padding: 1vh 3vw;
     font-weight: bold;
     background-color: #a3acc5;
@@ -176,10 +173,10 @@
     transition: background-color .5s ease;
 }
 
-.box-erro button:hover {
+.box-alert button:hover {
     background-color: #808696;
 }
 
-.box-erro .button-seguir {
+.box-alert .button-seguir {
     display: none;
 }
