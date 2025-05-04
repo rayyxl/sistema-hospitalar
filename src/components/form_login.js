@@ -16,6 +16,8 @@ function FormLogin() {
     const text_alert_ref = useRef(null)
     const box_alert_ref = useRef(null)
 
+    const navigate = useNavigate()
+
     //FUNCTIONS
     function handle_input(e) {
         setDatas({
@@ -36,14 +38,17 @@ function FormLogin() {
                     },
                     body: JSON.stringify(datas)
                 })
+
+                NProgress.start()
     
                 const result = await request.json()
 
-                NProgress.start()
 
                 if (!result.erro_crm && !result.erro_senha) {
 
                     NProgress.done()
+
+                    navigate('/tela-inicial')
 
                 } else if (result.erro_crm && result.erro_senha) {
                     NProgress.done()
@@ -57,7 +62,7 @@ function FormLogin() {
 
                     abrir_box_alerta()
 
-                    text_alert_ref.current.innerText = `SENHA INCORRETA`
+                    text_alert_ref.current.innerText = `SENHA INCORRETA!`
 
                 }
                     
@@ -70,36 +75,38 @@ function FormLogin() {
             gsap.to(box_alert_ref.current, {opacity: 1, display: 'flex', duration: 1})
 
             setTimeout(() => {
-                gsap.to(box_alert_ref.current, {opacity: 0, display: 'none', duration: 1})
+                gsap.to(box_alert_ref.current, {opacity: 0, display: 'none', duration: 0.6})
             }, 2500)
         }
     
     return (
-        <div className={styles['box-container']}>
-            <div className={styles['box-titulo']}>
-                <h1>LOGIN</h1>
-            </div>
-            <form onSubmit={handle_submit}>
-                <div className='box-crm'>
-                    <label htmlFor="crm">CRM:</label>
-                    <input type="text" name="crm" id="crm" value={datas.crm} onChange={handle_input} required/>
+        <div className={styles['box-page-login']}>
+            <div className={styles['box-container']}>
+                <div className={styles['box-titulo']}>
+                    <h1>LOGIN</h1>
                 </div>
+                <form onSubmit={handle_submit}>
+                    <div className='box-crm'>
+                        <label htmlFor="crm">CRM:</label>
+                        <input type="text" name="crm" id="crm" value={datas.crm} onChange={handle_input} required/>
+                    </div>
 
-                <div className='box-senha'>
-                    <label htmlFor="senha">SENHA:</label>
-                    <input type="password" name="senha" id="senha" value={datas.senha} onChange={handle_input} required/>
+                    <div className='box-senha'>
+                        <label htmlFor="senha">SENHA:</label>
+                        <input type="password" name="senha" id="senha" value={datas.senha} onChange={handle_input} required/>
+                    </div>
+                    <div ref={box_alert_ref} className={styles['box-text-alert']}>
+                        <p ref={text_alert_ref}></p>
+                    </div>
+                    <div className={styles['box-button']}>
+                        <input type='submit' value="ENTRAR" name='button' id='button'/>
+                    </div>
+                
+                </form>
+                <div className={styles['box-cadastro']}>
+                    <Link to="/form-cadastro" className={styles['link']}>SIGN UP</Link>
+                    <Link to="/" className={styles['link']}>ESQUECEU A SENHA?</Link>
                 </div>
-                <div ref={box_alert_ref} className={styles['box-text-alert']}>
-                    <p ref={text_alert_ref}></p>
-                </div>
-                <div className={styles['box-button']}>
-                    <input type='submit' value="ENTRAR" name='button' id='button'/>
-                </div>
-            
-            </form>
-            <div className={styles['box-cadastro']}>
-                <Link to="/form-cadastro" className={styles['link']}>SIGN UP</Link>
-                <Link to="/" className={styles['link']}>ESQUECEU A SENHA?</Link>
             </div>
         </div>
         

@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+.box-page-login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .box-container {
     width: 50vw;
     height: 60vh;

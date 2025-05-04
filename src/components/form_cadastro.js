@@ -191,70 +191,72 @@ function FormCadastro() {
 
 
     return (
-        <div className={styles['box-container']}>
-            <div ref={box_cadastro_ref} className={styles['box-cadastro']}>
-                <div className={styles['box-titulo']}>
-                    <h1>CADASTRO DO MÉDICO</h1>
-                </div>
-                <form onSubmit={handle_submit}>
-                    <div className='box-crm'>
-                        <label htmlFor="nome">NOME COMPLETO:</label>
-                        <input type="text" name="nome" value={datas.nome} id="nome" onChange={handle_input} required />
+        <div className={styles['box-page-cadastro']}>
+            <div className={styles['box-container']}>
+                <div ref={box_cadastro_ref} className={styles['box-cadastro']}>
+                    <div className={styles['box-titulo']}>
+                        <h1>CADASTRO DO MÉDICO</h1>
                     </div>
-
-                    <div className='box-senha'>
-                        <label htmlFor="senha">SENHA:</label>
-                        <input type="password" name="senha" value={datas.senha} id="senha" onChange={handle_input} required />
-                    </div>
-
-                    <div className='box-cpf'>
-                        <label htmlFor="cpf">CPF:</label>
-                        <input type='text' ref={cpf_input_ref} id='cpf' name='cpf' value={datas.cpf} onChange={handle_input} maxLength="14" required/>
-                    </div>
-
-                    <div className='box-especializacao'>
-                        <label htmlFor="especializacao">ESPECIALIZAÇÃO:</label>
-                        <select name='especializacao' onChange={handle_input} value={datas.especializacao} required>
-                            <option value="" disabled selected></option>
-                            {especialidades_medicas.map((esp) => (
-        <option value={esp}>{esp}</option>
-    ))}
-                        </select>
-                    </div>
-
-                    <div className='box-uf'>
-                        <label htmlFor="uf">UF:</label>
-                        <select name='uf' onChange={handle_input} value={datas.uf} required>
-                            <option value="" disabled selected></option>
-                            {estados.map((est) => (
-        <option value={est}>{est}</option>
-    ))}
-                        </select>
-                    </div>
-
-                    <div className='box-text-crm'>
-                        <label htmlFor='text-crm'>CRM GERADO:</label>
-                        <div className={styles['campo-crm']}>
-                            <p>{datas.crm}</p>
+                    <form onSubmit={handle_submit}>
+                        <div className='box-crm'>
+                            <label htmlFor="nome">NOME COMPLETO:</label>
+                            <input type="text" name="nome" value={datas.nome} id="nome" onChange={handle_input} required />
                         </div>
-                    </div>
 
-                    <div className={styles['box-button']}>
-                        <input type='submit' value="CADASTRAR" name='button' id='button'/>
+                        <div className='box-senha'>
+                            <label htmlFor="senha">SENHA:</label>
+                            <input type="password" name="senha" value={datas.senha} id="senha" onChange={handle_input} required />
+                        </div>
+
+                        <div className='box-cpf'>
+                            <label htmlFor="cpf">CPF:</label>
+                            <input type='text' ref={cpf_input_ref} id='cpf' name='cpf' value={datas.cpf} onChange={handle_input} maxLength="14" required/>
+                        </div>
+
+                        <div className='box-especializacao'>
+                            <label htmlFor="especializacao">ESPECIALIZAÇÃO:</label>
+                            <select name='especializacao' onChange={handle_input} value={datas.especializacao} required>
+                                <option value="" disabled selected></option>
+                                {especialidades_medicas.map((esp) => (
+            <option value={esp}>{esp}</option>
+        ))}
+                            </select>
+                        </div>
+
+                        <div className='box-uf'>
+                            <label htmlFor="uf">UF:</label>
+                            <select name='uf' onChange={handle_input} value={datas.uf} required>
+                                <option value="" disabled selected></option>
+                                {estados.map((est) => (
+            <option value={est}>{est}</option>
+        ))}
+                            </select>
+                        </div>
+
+                        <div className='box-text-crm'>
+                            <label htmlFor='text-crm'>CRM GERADO:</label>
+                            <div className={styles['campo-crm']}>
+                                <p>{datas.crm}</p>
+                            </div>
+                        </div>
+
+                        <div className={styles['box-button']}>
+                            <input type='submit' value="CADASTRAR" name='button' id='button'/>
+                        </div>
+                    </form>
+                    <div className={styles['box-cadastro']}>
+                        <Link to="/" className={styles['link']}>VOLTAR</Link>
                     </div>
-                </form>
-                <div className={styles['box-cadastro']}>
-                    <Link to="/" className={styles['link']}>VOLTAR</Link>
                 </div>
-            </div>
-            <div ref={box_alert_ref} className={styles['box-alert']}>
-                <h1>ATENÇÃO!</h1>
+                <div ref={box_alert_ref} className={styles['box-alert']}>
+                    <h1>ATENÇÃO!</h1>
 
-                <p ref={text_alert_ref}></p>
+                    <p ref={text_alert_ref}></p>
 
-                <button ref={button_corrigir_ref} type='button' onClick={fechar_box_alert}>CORRIGIR</button>
+                    <button ref={button_corrigir_ref} type='button' onClick={fechar_box_alert}>CORRIGIR</button>
 
-                <button className={styles['button-seguir']} ref={button_confirmar_ref} type='button' onClick={ir_pagina_login}>SEGUIR</button>
+                    <button className={styles['button-seguir']} ref={button_confirmar_ref} type='button' onClick={ir_pagina_login}>SEGUIR</button>
+                </div>
             </div>
         </div>
         
