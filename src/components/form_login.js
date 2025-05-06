@@ -36,7 +36,8 @@ function FormLogin() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(datas)
+                    body: JSON.stringify(datas),
+                    credentials: "include"
                 })
 
                 NProgress.start()
@@ -72,7 +73,7 @@ function FormLogin() {
         }
 
         function abrir_box_alerta() {
-            gsap.to(box_alert_ref.current, {opacity: 1, display: 'flex', duration: 1})
+            gsap.to(box_alert_ref.current, {opacity: 1, display: 'flex', duration: 1.1})
 
             setTimeout(() => {
                 gsap.to(box_alert_ref.current, {opacity: 0, display: 'none', duration: 0.6})
