@@ -16,8 +16,8 @@ function TelaInicial() {
             
             const result = await request.json();
     
-            if (result.mensagem) {
-              text_ref.current.innerText = `Seja bem-vindo(a), Dr(a) ${result.dados.nome}.`;
+            if (result) {
+              text_ref.current.innerText = `Seja bem-vindo(a), Dr(a) ${result.nome}.`;
             }
           } catch (erro) {
             console.log('erro:', erro);
