@@ -183,7 +183,7 @@ function FormCadastro() {
         const tem_letra_maiu = /[A-Z]/.test(senha);
         const tem_letra_minu = /[a-z]/.test(senha)
         const tem_numero = /[0-9]/.test(senha);
-        const tem_especial = /[!@#$%^&*(),.?":{}|<>_\-+=\\[\]\/~`]/.test(senha);
+        const tem_especial = /[!@#$%^&*(),.?":{}|<>_\-+=\\[\]~`]/.test(senha);
         const tem_espaco = /\s/.test(senha)
       
         return tamanho_minimo && tem_letra_maiu && tem_letra_minu && tem_numero && tem_especial && !tem_espaco;

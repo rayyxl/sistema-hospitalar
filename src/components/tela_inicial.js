@@ -1,4 +1,3 @@
-import styles from './tela_inicial.module.css'
 import { useEffect, useRef } from 'react'
 
 function TelaInicial() {
