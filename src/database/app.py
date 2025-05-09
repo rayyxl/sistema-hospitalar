@@ -4,7 +4,7 @@ from flask_session import Session
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from model import Medico
 from bd import BD
-from os import system
+import os
 
 app = Flask(__name__)
 app.secret_key = 'raisoares123!'
@@ -20,7 +20,7 @@ login_manager = LoginManager()
 login_manager.login_view = '/login'
 login_manager.init_app(app)
 
-system('cls')
+os.system('cls' if os.name == 'nt' else 'clear')
 
 bd = BD()
 
