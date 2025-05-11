@@ -105,7 +105,7 @@ function FormLogin() {
                 
                 </form>
                 <div className={styles['box-cadastro']}>
-                    <Link to="/form-cadastro" className={styles['link']}>SIGN UP</Link>
+                    <Link to="/form-cadastro" className={styles['link']}>INSCREVER-SE</Link>
                     <Link to="/" className={styles['link']}>ESQUECEU A SENHA?</Link>
                 </div>
             </div>

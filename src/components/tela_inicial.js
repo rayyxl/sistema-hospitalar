@@ -10,7 +10,7 @@ function TelaInicial() {
           try {
             const request = await fetch('http://localhost:5000/retornar-medico', {
               method: 'GET',
-              credentials: 'include'  // ADICIONE ISSO
+              credentials: 'include'
             });
             
             const result = await request.json();
